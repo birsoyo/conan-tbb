@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
-from conans import ConanFile, CMake, VisualStudioBuildEnvironment, tools
+from conans import ConanFile, VisualStudioBuildEnvironment, tools
 
 class TbbConan(ConanFile):
     name = 'tbb'
-    version = '18.5'
+    version = '19.2'
     description = 'Intel® Threading Building Blocks (Intel® TBB) is a popular software C++ template library that simplifies the development of software applications running in parallel (key to any multicore computer).'
     url = 'https://github.com/birsoyo/conan-tbb'
     homepage = 'https://github.com/01org/tbb'
@@ -23,10 +23,6 @@ class TbbConan(ConanFile):
     # Custom attributes for Bincrafters recipe conventions
     source_subfolder = 'source_subfolder'
     build_subfolder = 'build_subfolder'
-
-    def build_requirements(self):
-        if 'Windows' in str(self.settings.os):
-            self.build_requires('MinGW/[*]@sesame/stable')
 
     def config_options(self):
         if self.settings.os == 'Windows':
@@ -54,7 +50,7 @@ tbbmalloc_release: mkdir
 	$(MAKE) -C "$(work_dir)_release"  -r -f $(tbb_root)/build/Makefile.tbbmalloc cfg=release malloc
 
 """)
-        tools.replace_in_file(f'{self.source_subfolder}/src/tbb/tbb_assert_impl.h', 'using namespace std;', '//using namespace std;')
+        #tools.replace_in_file(f'{self.source_subfolder}/src/tbb/tbb_assert_impl.h', 'using namespace std;', '//using namespace std;')
 
     def build(self):
         if self.settings.arch == 'x86_64':
